@@ -24,6 +24,7 @@ const Login = () => {
           withCredentials: true,
         },
       );
+      localStorage.setItem("userLoggedIn", "yes");
       alert(res.data.success);
       navigate("/dashboard");
     } catch (error) {

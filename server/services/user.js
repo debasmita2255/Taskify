@@ -73,4 +73,21 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const logout = async (req, res) => {
+  try {
+    // Clear the exact cookie name you set during login
+    res.clearCookie("taskifyUserToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "None",
+    });
+    return res.status(200).json({ success: "Logged out successfully!" });
+  } catch (error) {
+    console.log(`Error in services/user: ${error}`);
+    return res
+      .status(500)
+      .json({ error: "Internal server error during logout!" });
+  }
+};
+
+module.exports = { register, login, logout };
