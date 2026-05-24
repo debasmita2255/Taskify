@@ -3,8 +3,9 @@ import { IoLogOutOutline } from "react-icons/io5";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const Header = ({ setIsModalOpen }) => {
+const Header = ({ setShowAddModal }) => {
   const navigate = useNavigate();
+
   const logout = async () => {
     try {
       const res = await axios.post(
@@ -20,6 +21,7 @@ const Header = ({ setIsModalOpen }) => {
       navigate("/login");
     }
   };
+
   return (
     <div className="flex px-12 py-4 items-center justify-between border-b">
       <div>
@@ -28,7 +30,7 @@ const Header = ({ setIsModalOpen }) => {
       <div className="flex gap-8">
         <button
           className="hover:text-blue-800 transition-all duration-300"
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => setShowAddModal(true)}
         >
           Add Task
         </button>

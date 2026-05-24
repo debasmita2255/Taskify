@@ -63,7 +63,7 @@ const login = async (req, res) => {
         sameSite: "None",
       });
 
-      return res.status(200).json({ success: "Login Successful!" });
+      return res.status(200).json({ success: "Logged in successfully!" });
     } else {
       return res.status(400).json({ error: "Invalid Credentials!" });
     }
@@ -90,4 +90,37 @@ const logout = async (req, res) => {
   }
 };
 
-module.exports = { register, login, logout };
+const getUserDetails = async (req, res) => {
+  try {
+    const { user } = req;
+    const getDetails = await User.findById(user._id)
+      .populate("tasks")
+      .select("-password"); // dont include password in the data that is sent from backend to frontend
+
+    if (getDetails) {
+      const allTasks = getDetails.tasks;
+
+      let yetToStart = [];
+      let inProgress = [];
+      let completed = [];
+
+      allTasks.forEach((item) => {
+        if (item.status === "yetToStart") yetToStart.push(item);
+        else if (item.status === "inProgress") inProgress.push(item);
+        else completed.push(item);
+      });
+
+      return res.status(200).json({
+        success: "success",
+        tasks: { yetToStart, inProgress, completed }, // the tasks are passed in form of object of arrays
+      });
+    } else {
+      return res.status(404).json({ error: "User not found" });
+    }
+  } catch (error) {
+    console.log(`Error in services/user: ${error}`);
+    return res.status(500).json({ error: "Internal server error!" });
+  }
+};
+
+module.exports = { register, login, logout, getUserDetails };
