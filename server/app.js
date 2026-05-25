@@ -8,10 +8,11 @@ require("./connection/conn");
 
 const userApis = require("./controllers/user");
 const taskApis = require("./controllers/task");
+
 // cors helps get the permission for the frontend to talk to backend
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_URL,
     credentials: true,
   }),
 );

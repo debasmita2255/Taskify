@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../../api";
 import React, { useState } from "react";
 
 const EditTask = ({ taskData, setShowEditModal, setTaskTrigger }) => {
@@ -19,8 +19,8 @@ const EditTask = ({ taskData, setShowEditModal, setTaskTrigger }) => {
   const editTask = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put(
-        `http://localhost:1000/api/v1/editTask/${taskData._id}`,
+      const res = await api.put(
+        `/editTask/${taskData._id}`,
         Values,
         { withCredentials: true },
         // ensures that the user's secret authentication cookie is sent along with the task, so the backend knows who is adding the task.
@@ -37,10 +37,9 @@ const EditTask = ({ taskData, setShowEditModal, setTaskTrigger }) => {
   const deleteTask = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.delete(
-        `http://localhost:1000/api/v1/deleteTask/${taskData._id}`,
-        { withCredentials: true },
-      );
+      const res = await api.delete(`/deleteTask/${taskData._id}`, {
+        withCredentials: true,
+      });
 
       alert(res.data.success);
       setTaskTrigger((prev) => !prev);

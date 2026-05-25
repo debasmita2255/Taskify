@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../api";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -17,13 +17,9 @@ const Login = () => {
   const login = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:1000/api/v1/login",
-        Values,
-        {
-          withCredentials: true,
-        },
-      );
+      const res = await api.post("/login", Values, {
+        withCredentials: true,
+      });
       localStorage.setItem("userLoggedIn", "yes");
       alert(res.data.success);
       navigate("/dashboard");

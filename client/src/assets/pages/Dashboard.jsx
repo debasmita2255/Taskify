@@ -6,7 +6,7 @@ import YetToStart from "../components/Dashboard/YetToStart";
 import InProgress from "../components/Dashboard/InProgress";
 import Completed from "../components/Dashboard/Completed";
 import EditTask from "../components/Dashboard/EditTask";
-import axios from "axios";
+import api from "../../api";
 
 const Dashboard = () => {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -18,12 +18,9 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:1000/api/v1/userDetails",
-          {
-            withCredentials: true,
-          },
-        );
+        const res = await api.get("/userDetails", {
+          withCredentials: true,
+        });
         setTasks(res.data.tasks);
       } catch (error) {
         console.log(`Error in pages/Dashboard: ${error}`);

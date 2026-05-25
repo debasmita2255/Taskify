@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../../api";
 import React, { useState } from "react";
 
 const AddTask = ({ setShowAddModal, setTaskTrigger }) => {
@@ -19,8 +19,8 @@ const AddTask = ({ setShowAddModal, setTaskTrigger }) => {
   const addTask = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:1000/api/v1/addTask",
+      const res = await api.post(
+        "/addTask",
         Values,
         { withCredentials: true },
         // ensures that the user's secret authentication cookie is sent along with the task, so the backend knows who is adding the task.

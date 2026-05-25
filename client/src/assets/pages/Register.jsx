@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../api";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -18,10 +18,7 @@ const Register = () => {
   const register = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:1000/api/v1/register",
-        Values,
-      );
+      const res = await api.post("/register", Values);
       alert(res.data.success);
       navigate("/login");
     } catch (error) {
@@ -49,6 +46,7 @@ const Register = () => {
               name="username"
               value={Values.username}
               onChange={change}
+              autoComplete="username"
             />
             <input
               type="email"
@@ -58,6 +56,7 @@ const Register = () => {
               name="email"
               value={Values.email}
               onChange={change}
+              autoComplete="email"
             />
             <input
               type="password"
