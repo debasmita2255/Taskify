@@ -27,6 +27,6 @@ app.get("/", (req, res) => {
 app.use("/api/v1", userApis);
 app.use("/api/v1", taskApis);
 
-app.listen(`${process.env.PORT}`, () => {
+app.listen(process.env.PORT, () => {
   console.log(`Listening on http://localhost:${process.env.PORT}`);
 });
