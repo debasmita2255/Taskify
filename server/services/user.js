@@ -56,11 +56,13 @@ const login = async (req, res) => {
         { expiresIn: "30d" },
       );
 
+      const isProduction = process.env.NODE_ENV === "production";
+
       res.cookie("taskifyUserToken", token, {
         httpOnly: true,
         maxAge: 30 * 24 * 60 * 60 * 1000,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "None",
+        secure: isProduction,
+        sameSite: isProduction ? "None" : "Lax",
       });
 
       return res.status(200).json({ success: "Logged in successfully!" });
@@ -75,12 +77,15 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
+    const isProduction = process.env.NODE_ENV === "production";
+
     // Clear the exact cookie name you set during login
     res.clearCookie("taskifyUserToken", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "None",
+      secure: isProduction,
+      sameSite: isProduction ? "None" : "Lax",
     });
+
     return res.status(200).json({ success: "Logged out successfully!" });
   } catch (error) {
     console.log(`Error in services/user: ${error}`);
